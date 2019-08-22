@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfCaptureMacro"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="400">
+        Title="MainWindow" Height="330" Width="490">
     <Window.Resources>
         <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -13,42 +13,29 @@
     </Window.Resources>
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="57*"/>
-            <ColumnDefinition Width="8*"/>
-            <ColumnDefinition Width="142*"/>
-            <ColumnDefinition Width="585*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="380*"/>
+            <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
 
-        <ComboBox x:Name="ActionMenu" HorizontalAlignment="Left" Height="27" Margin="10,118,0,0" VerticalAlignment="Top" Width="173" SelectedIndex="0" Grid.ColumnSpan="2" Grid.Column="2">
-            <ComboBoxItem Content="마우스 L클릭(클릭유지O)"/>
-            <ComboBoxItem Content="마우스 L클릭해제"/>
-            <ComboBoxItem Content="마우스 이동"/>
-            <ComboBoxItem Content="이미지 캡처"/>
-        </ComboBox>
+        <Border BorderThickness="1" BorderBrush="Black" CornerRadius="10" Margin="22,18,21,227" Grid.Column="1" RenderTransformOrigin="0.5,0.5">
 
-        <Button Content="동작 추가" HorizontalAlignment="Left" Margin="140,111,0,0" VerticalAlignment="Top" Width="106" Height="15" Click="ActionAdd_Btn_Click" Grid.Column="3" FontSize="10"/>
-        <Button Content="동작 삭제" HorizontalAlignment="Left" Margin="140,131,0,0" VerticalAlignment="Top" Width="106" Height="15" Click="ActionDel_Btn_Click" Grid.Column="3" FontSize="10"/>
-        <Button Content="동작 설정" HorizontalAlignment="Left" Margin="10,484,0,0" VerticalAlignment="Top" Width="135" Height="46" Click="ActionSet_Btn_Click" RenderTransformOrigin="0.997,4.01" Grid.Column="2" Grid.ColumnSpan="2"/>
-        <Button Content="시작" HorizontalAlignment="Left" Margin="111,484,0,0" VerticalAlignment="Top" Width="135" Height="46" Click="Start_Btn_Click" RenderTransformOrigin="0.997,4.01" Grid.Column="3"/>
+            <TextBlock x:Name="Manual" Margin="9,1,9,0" TextWrapping="Wrap" Text="설명" VerticalAlignment="Top" Height="32" RenderTransformOrigin="0.5,0.5">
 
-        <Border BorderThickness="1" BorderBrush="Black" CornerRadius="15" Margin="0,38,27,469" Grid.Column="2" Grid.ColumnSpan="2">
-            <TextBlock x:Name="Manual" HorizontalAlignment="Left" Margin="12,9,0,0" TextWrapping="Wrap" Text="설명" VerticalAlignment="Top" Height="49" Width="377"/>
+            </TextBlock>
         </Border>
-        <ListView x:Name="ActionListView" Grid.Column="2" HorizontalAlignment="Left" Height="276" Margin="10,173,0,0" VerticalAlignment="Top" Width="306" Grid.ColumnSpan="2">
+
+        <Button Content="동작 설정" HorizontalAlignment="Left" Margin="32,243,0,0" VerticalAlignment="Top" Width="75" Height="46" Click="ActionSet_Btn_Click" RenderTransformOrigin="0.997,4.01" Grid.Column="1"/>
+        <Button Content="동작 테스트" HorizontalAlignment="Left" Margin="196,243,0,0" VerticalAlignment="Top" Width="76" Height="46" Click="ActionTest_Btn_Click" RenderTransformOrigin="0.997,4.01" Grid.Column="1"/>
+        <Button Content="시작" HorizontalAlignment="Left" Margin="362,243,0,0" VerticalAlignment="Top" Width="75" Height="46" Click="Start_Btn_Click" RenderTransformOrigin="0.997,4.01" Grid.Column="1"/>
+
+        <ListView x:Name="ActionListView" Grid.Column="1" HorizontalAlignment="Left" Height="148" Margin="22,81,0,0" VerticalAlignment="Top" Width="410">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="순서" Width="40">
+                    <GridViewColumn Header="설정 내용" Width="170">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding order}" TextAlignment="Center" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="동작" Width="140" DisplayMemberBinding="{Binding strAction}" />
-                    <GridViewColumn Header="반복횟수" Width="60">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding iteration}" TextAlignment="Center" />
+                                <TextBlock Text="{Binding strAction}" TextAlignment="Left" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -59,9 +46,24 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
+                    <GridViewColumn Header="테스트여부" Width="70">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding isTested}" TextAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="설정값" Width="110">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding strValue}" TextAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-        
+
+
     </Grid>
 </Window>
