@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfCaptureMacro"
         mc:Ignorable="d"
-        Title="MainWindow" Height="330" Width="490">
+        Title="MainWindow" Height="330" Width="614.5">
     <Window.Resources>
         <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -18,18 +18,18 @@
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
 
-        <Border BorderThickness="1" BorderBrush="Black" CornerRadius="10" Margin="22,18,21,227" Grid.Column="1" RenderTransformOrigin="0.5,0.5">
+        <Border BorderThickness="1" BorderBrush="Black" CornerRadius="10" Margin="22,18,16,227" Grid.Column="1" RenderTransformOrigin="0.5,0.5">
 
-            <TextBlock x:Name="Manual" Margin="9,1,9,0" TextWrapping="Wrap" Text="설명" VerticalAlignment="Top" Height="32" RenderTransformOrigin="0.5,0.5">
+            <TextBlock x:Name="Manual" Margin="9,1,9,0" TextWrapping="Wrap" Text="설명" VerticalAlignment="Top" Height="42" RenderTransformOrigin="0.5,0.5">
 
             </TextBlock>
         </Border>
 
         <Button Content="동작 설정" HorizontalAlignment="Left" Margin="32,243,0,0" VerticalAlignment="Top" Width="75" Height="46" Click="ActionSet_Btn_Click" RenderTransformOrigin="0.997,4.01" Grid.Column="1"/>
-        <Button Content="동작 테스트" HorizontalAlignment="Left" Margin="196,243,0,0" VerticalAlignment="Top" Width="76" Height="46" Click="ActionTest_Btn_Click" RenderTransformOrigin="0.997,4.01" Grid.Column="1"/>
-        <Button Content="시작" HorizontalAlignment="Left" Margin="362,243,0,0" VerticalAlignment="Top" Width="75" Height="46" Click="Start_Btn_Click" RenderTransformOrigin="0.997,4.01" Grid.Column="1"/>
+        <Button Content="동작 테스트" HorizontalAlignment="Left" Margin="241,243,0,0" VerticalAlignment="Top" Width="76" Height="46" Click="ActionTest_Btn_Click" RenderTransformOrigin="0.997,4.01" Grid.Column="1"/>
+        <Button Content="시작" HorizontalAlignment="Left" Margin="467,243,0,0" VerticalAlignment="Top" Width="75" Height="46" Click="Start_Btn_Click" RenderTransformOrigin="0.997,4.01" Grid.Column="1"/>
 
-        <ListView x:Name="ActionListView" Grid.Column="1" HorizontalAlignment="Left" Height="148" Margin="22,81,0,0" VerticalAlignment="Top" Width="410">
+        <ListView x:Name="ActionListView" Grid.Column="1" HorizontalAlignment="Left" Height="148" Margin="22,81,0,0" VerticalAlignment="Top" Width="538">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="설정 내용" Width="170">
@@ -53,10 +53,10 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="설정값" Width="110">
+                    <GridViewColumn Header="설정값" Width="238">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding strValue}" TextAlignment="Center" />
+                                <TextBlock Text="{Binding strValue}" TextAlignment="Left" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

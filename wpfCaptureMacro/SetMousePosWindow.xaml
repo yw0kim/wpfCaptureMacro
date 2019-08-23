@@ -1,0 +1,15 @@
+﻿<Window x:Class="wpfCaptureMacro.SetMousePosWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:wpfCaptureMacro"
+        mc:Ignorable="d"
+        Title="마우스위치입력" Height="146.132" Width="200" Loaded="SetMousePosLoaded">
+    <Grid>
+        <TextBlock x:Name="MouseClickTextBlock" HorizontalAlignment="Left" Margin="10,8,0,47" TextWrapping="Wrap" VerticalAlignment="Center" Height="60" Width="172" TextAlignment="Center"><Run Text="마우스를 "/><Run Text="원하는 위치"/><Run Text="에 두고"/><Run/><LineBreak/><Run Text="좌클릭"/></TextBlock>
+        <Button x:Name="OkBtn" Content="확인" HorizontalAlignment="Left" Height="21" Margin="33,78,0,0" VerticalAlignment="Top" Width="51" Click="OkBtn_Click"/>
+        <Button x:Name="CancelBtn" Content="취소" HorizontalAlignment="Left" Height="21" Margin="105,78,0,0" VerticalAlignment="Top" Width="51" Click="CancelBtn_Click"/>
+    
+    </Grid>
+</Window>

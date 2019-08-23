@@ -88,8 +88,8 @@ namespace wpfCaptureMacro
 
         public ActionEnum action;
         public int iterNum; // iterNum
-        public int x, y; // mouseClick Target 
-        public int sx, sy, dx, dy;//imgCapture Target
+        public double cx, cy; // mouseClick Target 
+        public double sx, sy, dx, dy;//imgCapture Target
         public string path; // imgCapture file dst
        
     }
@@ -99,7 +99,7 @@ namespace wpfCaptureMacro
     {
         private List<CAction> actionList = new List<CAction>();
         // public SetActionWindow setActionWindow;
-        public SetIterWindow iterWindow;
+        // public SetIterWindow iterWindow;
 
         public MainWindow()
         {
@@ -132,13 +132,53 @@ namespace wpfCaptureMacro
         {
             if (actionEnum == ActionEnum.OuterIter || actionEnum == ActionEnum.InnerIter)
             {
-                iterWindow = new SetIterWindow(actionEnum, selectedIdx);
+                SetIterWindow iterWindow = new SetIterWindow(actionEnum, selectedIdx);
                 App.Current.MainWindow = iterWindow;
                 iterWindow.goBackMainWindowEvent += new EventHandler<iterNumArg>(iterGetEvent);
                 iterWindow.Show();
             }
         }
 
+        void mousePosGetEvent(object sender, mousePosArg e)
+        {
+            actionList[e.SelectedIdx].cx = e.X;
+            actionList[e.SelectedIdx].cy = e.Y;
+            actionList[e.SelectedIdx].strValue = "위치 : (" + e.X.ToString() + ", " + e.Y.ToString() + ")";
+            actionList[e.SelectedIdx].isActionSet = 'o';
+            ActionListView.Items.Refresh();
+        }
+
+        public void switchMousePosWindow(ActionEnum actionEnum, int selectedIdx)
+        {
+            if (actionEnum == ActionEnum.OuterNext || actionEnum == ActionEnum.InnerNext)
+            {
+                SetMousePosWindow mousePosWindow = new SetMousePosWindow(actionEnum, selectedIdx);
+                App.Current.MainWindow = mousePosWindow;
+                mousePosWindow.goBackMainWindowEvent += new EventHandler<mousePosArg>(mousePosGetEvent);
+                mousePosWindow.Show();
+            }
+        }
+
+        void areaGetEvent(object sender, captureAreaArg e)
+        {
+            actionList[e.SelectedIdx].sx = e.sX;
+            actionList[e.SelectedIdx].sy = e.sY;
+            actionList[e.SelectedIdx].dx = e.dX;
+            actionList[e.SelectedIdx].dy = e.dY;
+            actionList[e.SelectedIdx].isActionSet = 'o';
+            actionList[e.SelectedIdx].strValue = "위치 : " +
+                "(" + e.sX.ToString() + ", " + e.sY.ToString() + "), (" +
+                e.dX.ToString() + ", " +e.dY.ToString() + ")";
+            ActionListView.Items.Refresh();
+        }
+
+        public void switchAreaWindow(int selectedIdx)
+        {
+            SetCaptureAreaWindow areaWindow = new SetCaptureAreaWindow(selectedIdx);
+            App.Current.MainWindow = areaWindow;
+            areaWindow.goBackMainWindowEvent += new EventHandler<captureAreaArg>(areaGetEvent);
+            areaWindow.Show();
+        }
 
         private void ActionSet_Btn_Click(object sender, RoutedEventArgs e)
         {
@@ -156,8 +196,10 @@ namespace wpfCaptureMacro
                         break;
                     case ActionEnum.OuterNext:
                     case ActionEnum.InnerNext:
+                        switchMousePosWindow(actionEnum, sel);
                         break;
                     case ActionEnum.ImgCapture:
+                        switchAreaWindow(sel);
                         break;
                     case ActionEnum.DstPath:
                         break;

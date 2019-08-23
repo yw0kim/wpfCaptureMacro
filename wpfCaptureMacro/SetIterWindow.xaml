@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfCaptureMacro"
         mc:Ignorable="d"
-        Title="SetIterWindow" Height="150" Width="200" WindowStartupLocation="CenterScreen">
+        Title="반복수입력" Height="150" Width="200" WindowStartupLocation="CenterScreen">
     <Grid>
         <TextBlock x:Name="IterTextBlock" HorizontalAlignment="Left" Margin="26,10,0,0" TextWrapping="Wrap" Text="설명" VerticalAlignment="Top" Height="45" Width="135" FontSize="14" TextAlignment="Center"/>
         <Button Content="입력" HorizontalAlignment="Left" Margin="101,73,0,0" VerticalAlignment="Top" Width="60" Height="29" Click="inputBtn_Click"/>
