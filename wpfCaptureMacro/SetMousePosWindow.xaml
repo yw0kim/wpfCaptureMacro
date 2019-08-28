@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfCaptureMacro"
         mc:Ignorable="d"
-        Title="마우스위치입력" Height="146.132" Width="200" Loaded="SetMousePosLoaded">
+        Title="마우스위치입력" Height="146.132" Width="200" Loaded="SetMousePosLoaded" WindowStartupLocation="CenterScreen">
     <Grid>
         <TextBlock x:Name="MouseClickTextBlock" HorizontalAlignment="Left" Margin="10,8,0,47" TextWrapping="Wrap" VerticalAlignment="Center" Height="60" Width="172" TextAlignment="Center"><Run Text="마우스를 "/><Run Text="원하는 위치"/><Run Text="에 두고"/><Run/><LineBreak/><Run Text="좌클릭"/></TextBlock>
         <Button x:Name="OkBtn" Content="확인" HorizontalAlignment="Left" Height="21" Margin="33,78,0,0" VerticalAlignment="Top" Width="51" Click="OkBtn_Click"/>

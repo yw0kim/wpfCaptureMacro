@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfCaptureMacro"
         mc:Ignorable="d"
-        Title="MainWindow" Height="330" Width="614.5">
+        Title="MainWindow" Height="388" Width="614.5" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -18,18 +18,12 @@
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
 
-        <Border BorderThickness="1" BorderBrush="Black" CornerRadius="10" Margin="22,18,16,227" Grid.Column="1" RenderTransformOrigin="0.5,0.5">
 
-            <TextBlock x:Name="Manual" Margin="9,1,9,0" TextWrapping="Wrap" Text="설명" VerticalAlignment="Top" Height="42" RenderTransformOrigin="0.5,0.5">
+        <Button Content="동작 설정" HorizontalAlignment="Left" Margin="32,299,0,0" VerticalAlignment="Top" Width="75" Height="46" Click="ActionSet_Btn_Click" RenderTransformOrigin="0.997,4.01" Grid.Column="1"/>
+        <Button Content="동작 테스트" HorizontalAlignment="Left" Margin="241,299,0,0" VerticalAlignment="Top" Width="76" Height="46" Click="ActionTest_Btn_Click" RenderTransformOrigin="0.997,4.01" Grid.Column="1"/>
+        <Button Content="시작" HorizontalAlignment="Left" Margin="467,299,0,0" VerticalAlignment="Top" Width="75" Height="46" Click="Start_Btn_Click" RenderTransformOrigin="0.997,4.01" Grid.Column="1"/>
 
-            </TextBlock>
-        </Border>
-
-        <Button Content="동작 설정" HorizontalAlignment="Left" Margin="32,243,0,0" VerticalAlignment="Top" Width="75" Height="46" Click="ActionSet_Btn_Click" RenderTransformOrigin="0.997,4.01" Grid.Column="1"/>
-        <Button Content="동작 테스트" HorizontalAlignment="Left" Margin="241,243,0,0" VerticalAlignment="Top" Width="76" Height="46" Click="ActionTest_Btn_Click" RenderTransformOrigin="0.997,4.01" Grid.Column="1"/>
-        <Button Content="시작" HorizontalAlignment="Left" Margin="467,243,0,0" VerticalAlignment="Top" Width="75" Height="46" Click="Start_Btn_Click" RenderTransformOrigin="0.997,4.01" Grid.Column="1"/>
-
-        <ListView x:Name="ActionListView" Grid.Column="1" HorizontalAlignment="Left" Height="148" Margin="22,81,0,0" VerticalAlignment="Top" Width="538">
+        <ListView x:Name="ActionListView" Grid.Column="1" Height="203" Margin="22,81,16,0" VerticalAlignment="Top" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="설정 내용" Width="170">
@@ -63,6 +57,10 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <ProgressBar Name="outerBar" Grid.Column="1" Height="27" Margin="32,9,129,0" VerticalAlignment="Top"/>
+        <ProgressBar Name="innerBar" Grid.Column="1" Height="27" Margin="32,45,129,0" VerticalAlignment="Top"/>
+        <TextBlock x:Name="outerTextBlock" Grid.Column="1" Margin="467,14,43,259" TextWrapping="Wrap" Text="0" TextAlignment="Center" FontSize="14"/>
+        <TextBlock x:Name="innerTextBlock" Grid.Column="1" Margin="467,49,43,223" TextWrapping="Wrap" Text="0" TextAlignment="Center" FontSize="14"/>
 
 
     </Grid>

@@ -27,10 +27,25 @@ namespace wpfCaptureMacro
         public int selectedIdx;
         bool isDraggingSelectionRect;
         bool isLeftMouseButtonDownOnWindow;
-        Point origMouseDownPoint, dstMoushUpPoint;
+        Point origMouseDownPoint;
+        double width, height;
         double DragThreshold;
-        double sx, sy, dx, dy;
         private Popup _popup;
+        private bool isTest;
+
+        private void areaConfirm(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                okTestBtnClick(sender, e);
+            }
+        }
+
+        private void okTestBtnClick(object sender, RoutedEventArgs e)
+        {
+            _popup.IsOpen = false;
+            this.Close();
+        }
 
         public SetCaptureAreaWindow(int _selectedIdx)
         {
@@ -39,21 +54,68 @@ namespace wpfCaptureMacro
             isDraggingSelectionRect = false;
             isLeftMouseButtonDownOnWindow = false;
             DragThreshold = 50.0;
+            isTest = false;
         }
+
+        public SetCaptureAreaWindow(int _selectedIdx, bool isTest, Rect area)
+        {
+            InitializeComponent();
+            if (isTest)
+            {
+                isTest = true;
+                Canvas.SetLeft(dragSelectionBorder, area.X);
+                Canvas.SetTop(dragSelectionBorder, area.Y);
+                dragSelectionBorder.Width = area.Width;
+                dragSelectionBorder.Height = area.Height;
+
+                Button ok = new Button();
+                ok.Content = "캡처 영역 확인";
+                ok.Click += okTestBtnClick;
+                ok.FontSize = 18;
+
+                _popup = new Popup
+                {
+                    Child = ok,
+                    Placement = PlacementMode.Center,
+                    StaysOpen = true,
+                    IsOpen = true,
+                };
+
+                _popup.HorizontalOffset = area.X + area.Width;
+                _popup.VerticalOffset = area.Y + area.Height;
+
+                dragSelectionCanvas.Visibility = Visibility.Visible;
+
+                // MouseLeftButtonDown="Down_AreaStart" MouseLeftButtonUp="Up_AreaEnd" MouseMove="Move_Area"
+                MouseLeftButtonDown -= Down_AreaStart;
+                MouseLeftButtonDown += areaConfirm;
+                MouseLeftButtonUp -= Up_AreaEnd;
+                MouseMove -= Move_Area;
+            }
+        }
+
+
 
         private void Down_AreaStart(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
+            if (e.ChangedButton == MouseButton.Left && !isTest)
             {
                 isLeftMouseButtonDownOnWindow = true;
                 origMouseDownPoint = e.GetPosition(this);
                 this.CaptureMouse();
 
                 e.Handled = true;
+                if (_popup != null)
+                    _popup.IsOpen = false;
             }
         }
 
-        
+        private void okButtonClick(object sender, RoutedEventArgs e)
+        {
+            goBackMainWindowEvent(this, new captureAreaArg(this.origMouseDownPoint, this.width, this.height, this.selectedIdx));
+            _popup.IsOpen = false;
+            this.Close();
+        }
 
         private void ApplyDragSelectionRect()
         {
@@ -63,31 +125,42 @@ namespace wpfCaptureMacro
             double y = Canvas.GetTop(dragSelectionBorder);
             double width = dragSelectionBorder.Width;
             double height = dragSelectionBorder.Height;
-            Rect dragRect = new Rect(x, y, width, height);
+            // Rect dragRect = new Rect(x, y, width, height);
 
             //
             // Inflate the drag selection-rectangle by 1/10 of its size to 
             // make sure the intended item is selected.
             //
-            dragRect.Inflate(width / 10, height / 10);
+            // dragRect.Inflate(width / 10, height / 10);
 
-            EventHandler handler = (s, e) =>
-            {
+            origMouseDownPoint = new Point(x, y);
+            this.width = width;
+            this.height = height;
 
-            };
             Button ok = new Button();
-            ok.Content = "영역 지정";
-            ok.Click += handler;
+            ok.Content = "영역 지정 확인";
+            ok.Click += okButtonClick;
+            ok.FontSize = 18;
 
             _popup = new Popup
             {
-                Child = new Button { Content = "영역 지정", ClickMode.Press }
+                Child = ok,
+                Placement = PlacementMode.Center,
+                StaysOpen = true,
+                IsOpen = true,
             };
-            
+
+            Mouse.Capture(this);
+            Point pointToWindow = Mouse.GetPosition(this);
+            Point pointToScreen = PointToScreen(pointToWindow);
+            _popup.HorizontalOffset = pointToScreen.X;
+            _popup.VerticalOffset = pointToScreen.Y;
+
         }
+
         private void Up_AreaEnd(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
+            if (e.ChangedButton == MouseButton.Left && !isTest)
             {
                 if (isDraggingSelectionRect)
                 {
@@ -136,13 +209,6 @@ namespace wpfCaptureMacro
             {
                 y = pt1.Y;
             }
-
-            //
-            // Determine x,y,width and height
-            // of the rect inverting the points if necessary.
-            // 
-    
-
             //
             // Update the coordinates of the rectangle used for drag selection.
             //
@@ -161,7 +227,7 @@ namespace wpfCaptureMacro
 
         private void Move_Area(object sender, MouseEventArgs e)
         {
-            if (isDraggingSelectionRect)
+            if (isDraggingSelectionRect && !isTest)
             {
                 //
                 // Drag selection is in progress.
@@ -171,7 +237,7 @@ namespace wpfCaptureMacro
 
                 e.Handled = true;
             }
-            else if (isLeftMouseButtonDownOnWindow)
+            else if (isLeftMouseButtonDownOnWindow && !isTest)
             {
                 //
                 // The user is left-dragging the mouse,
@@ -204,33 +270,27 @@ namespace wpfCaptureMacro
 
     public class captureAreaArg : EventArgs
     {
-        public captureAreaArg(double _sx, double _sy, double _dx, double _dy, int _selectedIdx)
+        public captureAreaArg(Point _leftTop, double _width, double _height, int _selectedIdx)
         {
-            sx = _sx;
-            sy = _sy;
-            dx = _dx;
-            dy = _dy;
+            width = _width;
+            height = _height;
+            leftTop = _leftTop;
             selectedIdx = _selectedIdx;
         }
-        private double dx;
-        public double dX
+        private double width;
+        public double Width
         {
-            get { return dx; }
+            get { return width; }
         }
-        private double dy;
-        public double dY
+        private double height;
+        public double Height
         {
-            get { return dy; }
+            get { return height; }
         }
-        private double sx;
-        public double sX
+        private Point leftTop;
+        public Point LeftTop
         {
-            get { return sx; }
-        }
-        private double sy;
-        public double sY
-        {
-            get { return sy; }
+            get { return leftTop; }
         }
         private int selectedIdx;
         public int SelectedIdx

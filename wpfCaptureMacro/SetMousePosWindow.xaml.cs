@@ -38,6 +38,10 @@ namespace wpfCaptureMacro
             {
                 MouseClickTextBlock.Text += "\n다음 페이지 위치";
             }
+            else if (actionEnum == ActionEnum.LastPixel)
+            {
+                MouseClickTextBlock.Text += "\n마지막 페이지 파랑색 위치";
+            }
             selectedIdx = _selectedIdx;
         }
     
